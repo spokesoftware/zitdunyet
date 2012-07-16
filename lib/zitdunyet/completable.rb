@@ -19,10 +19,11 @@ module Zitdunyet
     end
 
     def percent_complete
+      completeness = 0
       self.class.checklist.each do |item|
-        item.logic.call
+        completeness += item.percent if item.logic.call
       end
-      true
+      completeness
     end
 
   end

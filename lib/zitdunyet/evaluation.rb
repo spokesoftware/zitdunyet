@@ -7,11 +7,17 @@ module Zitdunyet
     end
 
     def percent_complete
-      completeness = 0
+      unit_percentage = self.class.units == 0 ? 0 : (100 - self.class.percentage) / self.class.units.to_f
+      percentage = 0
+      complete = true
       self.class.checklist.each do |item|
-        completeness += item.percent if item.logic.call
+        if item.logic.call
+          percentage += item.percent ? item.percent : item.units * unit_percentage
+        else
+          complete = false
+        end
       end
-      completeness
+      complete ? 100 : percentage
     end
 
   end

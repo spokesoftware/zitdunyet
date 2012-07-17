@@ -69,6 +69,113 @@ describe "Evaluations" do
       foo = Foo.new
       foo.percent_complete.should == 100
     end
+
+    it "should evaluate fractional percentage when specified" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.5.percent do true end
+        checkoff "Step Two", 39.5.percent do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 60.5
+    end
+
+  end
+
+  context "Units" do
+
+    it "should evaluate 0 percent when no checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do false end
+        checkoff "Step Two", 40.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 0
+    end
+
+    it "should evaluate intermediate percentage when some checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do true end
+        checkoff "Step Two", 40.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 60
+    end
+
+    it "should evaluate 100 percent when all checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do true end
+        checkoff "Step Two", 40.units do true end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 100
+    end
+
+    it "should evaluate to fractional percents when required" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 1.units do true end
+        checkoff "Step Two", 199.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 0.5
+    end
+  end
+
+  context "Mix of Percent and Units" do
+
+    it "should evaluate 0 percent when no checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.percent do false end
+        checkoff "Step Two", 40.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 0
+    end
+
+    it "should evaluate intermediate percentage when some checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.percent do true end
+        checkoff "Step Two", 40.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 60
+    end
+
+    it "should evaluate 100 percent when all checkoff items are done" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.percent do true end
+        checkoff "Step Two", 40.units do true end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 100
+    end
+
+    it "should evaluate to fractional percents when required" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 1.units do true end
+        checkoff "Step Two", 1.units do false end
+        checkoff "Step Three", 99.percent do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 0.5
+    end
   end
 
 end

@@ -81,6 +81,33 @@ describe "Evaluations" do
       foo.percent_complete.should == 60.5
     end
 
+    it "should scale the percentage when the specified percentages don't total 100" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 40.percent do true end
+        checkoff "Step Two", 40.percent do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 50
+    end
+
+    it "should scale the percentage when the specified percentages exceed 100" do
+      pending "a decision on how to handle excess percentage"
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.percent do true end
+      end
+
+      class Baz < Foo
+        include Zitdunyet::Completeness
+        checkoff "Step Two", 60.percent do false end
+      end
+
+      baz = Baz.new
+      baz.percent_complete.should == 50
+    end
+
   end
 
   context "Units" do
@@ -148,6 +175,17 @@ describe "Evaluations" do
         include Zitdunyet::Completeness
         checkoff "Step One", 60.percent do true end
         checkoff "Step Two", 40.units do false end
+      end
+
+      foo = Foo.new
+      foo.percent_complete.should == 60
+    end
+
+    it "should evaluate scale the units to fit remaining percentage" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do true end
+        checkoff "Step Two", 40.percent do false end
       end
 
       foo = Foo.new

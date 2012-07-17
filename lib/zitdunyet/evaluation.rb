@@ -7,17 +7,32 @@ module Zitdunyet
     end
 
     def percent_complete
-      unit_percentage = self.class.units == 0 ? 0 : (100 - self.class.percentage) / self.class.units.to_f
-      percentage = 0
+      # Scale the percentages if they don't add up to 100.  When units are part of the mix, scale the units to fit into
+      # the percentage slice leftover after totaling the percentages.
+      unit_percentage = 0
+      pct_percentage = 1
+      if self.class.percentage < 100
+        unit_percentage = ((100 - self.class.percentage) / self.class.units.to_f) if (self.class.units > 0)
+        pct_percentage = (100 / self.class.percentage.to_f) if (self.class.units == 0)
+      elsif self.class.percentage > 100
+        pct_percentage = (100 / self.class.percentage.to_f) if (self.class.units == 0)
+      end
+
+      completed_pct = 0
+      completed_units = 0
       complete = true
       self.class.checklist.each do |item|
         if item.logic.call
-          percentage += item.percent ? item.percent : item.units * unit_percentage
+          if item.percent
+            completed_pct += item.percent
+          else
+            completed_units += item.units if item.units
+          end
         else
           complete = false
         end
       end
-      complete ? 100 : percentage
+      complete ? 100 : (completed_pct * pct_percentage) + (completed_units * unit_percentage)
     end
 
   end

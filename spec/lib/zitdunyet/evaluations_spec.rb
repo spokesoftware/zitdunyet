@@ -33,6 +33,26 @@ describe "Evaluations" do
       foo = Foo.new
       foo.complete?.should be_false
     end
+
+    it "should evaluate the condition for self" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do |s| s.blork end
+        checkoff "Step Two", 40.units do |s| s.count >= 3 end
+
+        def blork
+          true
+        end
+
+        def count
+          3
+        end
+      end
+
+      foo = Foo.new
+      foo.complete?.should be_true
+      foo.percent_complete.should == 100
+    end
   end
 
   context "Percentages" do

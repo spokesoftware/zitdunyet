@@ -2,7 +2,7 @@ module Zitdunyet
   module Evaluation
 
     def complete?
-      self.class.checklist.each { |item| return false unless item.logic.call }
+      self.class.checklist.each { |item| return false unless item.logic.call(self) }
       true
     end
 
@@ -23,7 +23,7 @@ module Zitdunyet
       complete = true
       @hints = {}
       self.class.checklist.each do |item|
-        if item.logic.call
+        if item.logic.call(self)
           if item.percent
             completed_pct += item.percent
           else

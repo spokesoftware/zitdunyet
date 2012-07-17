@@ -5,7 +5,7 @@ require "zitdunyet/checkoff"
 require "zitdunyet/class_specific"
 require "zitdunyet/expressions"
 require "zitdunyet/evaluation"
-require "zitdunyet/completable"
+require "zitdunyet/completeness"
 
 module Zitdunyet
   # Your code goes here...

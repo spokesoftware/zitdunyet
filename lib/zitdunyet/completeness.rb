@@ -1,5 +1,5 @@
 module Zitdunyet
-  module Completable
+  module Completeness
 
     def self.included(base)
       base.extend Zitdunyet::ClassSpecific

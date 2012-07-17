@@ -19,7 +19,7 @@ describe "Class Attr" do
 
   let(:foo) do
     class Foo
-      include Zitdunyet::ClassSpecific
+      extend Zitdunyet::ClassSpecific
 
       def add(item)
         self.class.checklist_add item

@@ -15,7 +15,8 @@ describe "Evaluations" do
 
   context "basics" do
     it "should evaluate true" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 8.percent do true end
       end
 
@@ -24,7 +25,8 @@ describe "Evaluations" do
     end
 
     it "should evaluate false" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 8.percent do false end
       end
 
@@ -36,7 +38,8 @@ describe "Evaluations" do
   context "Percentages" do
 
     it "should evaluate 0 percent when no checkoff items are done" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 60.percent do false end
         checkoff "Step Two", 40.percent do false end
       end
@@ -46,7 +49,8 @@ describe "Evaluations" do
     end
 
     it "should evaluate intermediate percentage when some checkoff items are done" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 60.percent do true end
         checkoff "Step Two", 40.percent do false end
       end
@@ -56,7 +60,8 @@ describe "Evaluations" do
     end
 
     it "should evaluate 100 percent when all checkoff items are done" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 60.percent do true end
         checkoff "Step Two", 40.percent do true end
       end

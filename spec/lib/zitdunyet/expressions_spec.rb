@@ -11,7 +11,8 @@ describe "Expressions" do
 
   context "basics" do
     it "should accept a minimal expression" do
-      class Test_1 < Zitdunyet::Completable
+      class Test_1
+        include Zitdunyet::Completable
         checkoff "Step One", 8.percent do true end
       end
     end
@@ -21,7 +22,8 @@ describe "Expressions" do
 
     it "should reject percentage exceeding 100" do
       expect {
-        class Foo < Zitdunyet::Completable
+        class Foo
+          include Zitdunyet::Completable
           checkoff "Step One", 101.percent do true end
         end
       }.to raise_error(RangeError)
@@ -29,7 +31,8 @@ describe "Expressions" do
 
     it "should reject cumulative percentage exceeding 100" do
       expect {
-        class Foo < Zitdunyet::Completable
+        class Foo
+          include Zitdunyet::Completable
           checkoff "Step One", 8.percent do true end
           checkoff "Step Two", 93.percent do true end
         end
@@ -37,13 +40,15 @@ describe "Expressions" do
     end
 
     it "should accept percentage exactly 100" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 100.percent do true end
       end
     end
 
     it "should accept cumulative percentage exactly 100" do
-      class Foo < Zitdunyet::Completable
+      class Foo
+        include Zitdunyet::Completable
         checkoff "Step One", 8.percent do true end
         checkoff "Step Two", 92.percent do true end
       end

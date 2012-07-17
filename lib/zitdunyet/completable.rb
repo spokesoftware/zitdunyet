@@ -1,7 +1,12 @@
 module Zitdunyet
-  class Completable
-    include Zitdunyet::ClassSpecific
-    extend Zitdunyet::Expressions
+  module Completable
+
+    def self.included(base)
+      base.extend Zitdunyet::ClassSpecific
+      base.extend Zitdunyet::Expressions
+    end
+
     include Zitdunyet::Evaluation
+
   end
 end

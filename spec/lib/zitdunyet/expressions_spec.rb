@@ -9,12 +9,15 @@ describe "Expressions" do
     end
   end
 
-  context "basics" do
+  context "Basics" do
     it "should accept a minimal expression" do
-      class Test_1
+      class Foo
         include Zitdunyet::Completeness
         checkoff "Step One", 8.percent do true end
       end
+
+      Foo.checklist.first.label.should == "Step One"
+      Foo.checklist.first.percent.should == 8
     end
   end
 
@@ -52,6 +55,17 @@ describe "Expressions" do
         checkoff "Step One", 8.percent do true end
         checkoff "Step Two", 92.percent do true end
       end
+    end
+  end
+
+  context "Hints" do
+    it "should accept a hint" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 8.percent, hint: "Add a widget" do true end
+      end
+
+      Foo.checklist.first.hint.should == "Add a widget"
     end
   end
 

@@ -216,4 +216,47 @@ describe "Evaluations" do
     end
   end
 
+  context "Hints" do
+
+    it "should provide a hint and percentage for uncompleted checkoff items" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units do false end
+        checkoff "Step Two", 40.units, hint: "Add a widget" do false end
+      end
+
+      foo = Foo.new
+      foo.hints.should have(2).items
+      one = foo.hints.delete("Step One")
+      one.should == 60
+      two = foo.hints.delete("Add a widget")
+      two.should == 40
+    end
+
+    it "should evaluate a hint when it is callable" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Step One", 60.units, hint: lambda {|s| s.blork} do false end
+        checkoff "Step Two", 40.units, hint: lambda {|s| "Add #{5-s.count} widgets"} do false end
+
+        def blork
+          "Raise the blork coefficient by 30%"
+        end
+
+        def count
+          3
+        end
+      end
+
+      foo = Foo.new
+      foo.hints.should have(2).items
+      puts foo.hints.inspect
+      one = foo.hints.delete("Raise the blork coefficient by 30%")
+      one.should == 60
+      two = foo.hints.delete("Add 2 widgets")
+      two.should == 40
+    end
+
+  end
+
 end

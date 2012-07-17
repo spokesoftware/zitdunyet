@@ -3,9 +3,17 @@ module Zitdunyet
     attr_accessor :label, :percent, :units, :logic, :hint, :stale, :after, :every, :period
 
     def initialize(label, progress_amount, *opts, &logic)
+      # Fill in the required fields
       (label.is_a? String) ? self.label = label : (raise ArgumentError.new "Label must be a String")
       assign_progress(progress_amount)
       block_given? ? self.logic = logic : (raise ArgumentError.new "Missing the block for assessing completion")
+
+      # Fill in the optional fields
+      unless opts.empty?
+        options = opts.first
+        self.hint = options.delete(:hint)
+      end
+
     end
 
     def assign_progress(progress_amount)

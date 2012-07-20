@@ -130,6 +130,20 @@ Let's say you have a special account that subclasses UserAccount.  You want the 
 
 In situations where subclassing is a possibility it is good practice to specify the checkoff amounts in units rather than percent.  That way the superclass can be complete relative to itself when instantiated, while allowing the subclass to contribute its share when it is instantiated without blowing the 100% barrier.
 
+## TODOs
+
++ Add method doc
++ Finesse away the monkeypatchs of Numeric that add #percent and #units
++ Add options for expressing staleness
+
+## Disclaimer
+
+This gem is brand spankin' new and is not in production yet.  It might benefit from further refinement that I haven't considered in the rush to get it done.  But hey, it passes specs, so ship it!
+
+## Credits
+
+This gem was developed in the course of my work at Spoke Software.  It is being made publicly available as a way of giving back to the community.
+
 ## Contributing
 
 1. Fork it

@@ -17,7 +17,6 @@ Gem::Specification.new do |gem|
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "rake"
+  gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec"
-  gem.add_development_dependency "factory_girl"
 end

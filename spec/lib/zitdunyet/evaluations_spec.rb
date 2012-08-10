@@ -53,6 +53,29 @@ describe "Evaluations" do
       foo.complete?.should be_true
       foo.percent_complete.should == 100
     end
+
+    it "should return a hash of complete and incomplete items" do
+      class Foo
+        include Zitdunyet::Completeness
+        checkoff "Bar", 1.units do |s| s.bar >= 5 end
+        checkoff "Baz", 1.units do |s| s.baz >= 5 end
+
+        def bar
+          9
+        end
+
+        def baz
+          3
+        end
+      end
+
+      foo = Foo.new
+      hash = foo.checklist
+      hash['Bar'].should be(true)
+      hash['Baz'].should be(false)
+
+    end
+
   end
 
   context "Percentages" do

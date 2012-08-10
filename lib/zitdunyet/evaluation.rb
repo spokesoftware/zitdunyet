@@ -22,6 +22,7 @@ module Zitdunyet
       completed_units = 0
       complete = true
       @hints = {}
+      @checklist = {}
       self.class.checklist.each do |item|
         if item.logic.call(self)
           if item.percent
@@ -34,6 +35,7 @@ module Zitdunyet
           hint = item.hint || item.label
           @hints[hint] = item.percent ? item.percent * pct_percentage : item.units * unit_percentage
         end
+        @checklist[item.label] = complete
       end
       complete ? 100 : (completed_pct * pct_percentage) + (completed_units * unit_percentage)
     end
@@ -50,5 +52,11 @@ module Zitdunyet
       end
       hints
     end
+
+    def checklist
+      percent_complete unless @checklist
+      @checklist
+    end
+
   end
 end

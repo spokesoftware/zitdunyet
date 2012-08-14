@@ -104,6 +104,12 @@ Sometimes, though, you may want to be more elaborate in your hinting.  #checkoff
 
 The hint over-rides the label when reported by #hints.
 
+#### Checklist
+
+They might be a situation where you want a list of both the items that have been completed and the items yet to be done.
+
++ #checklist - returns a hash in which the keys are labels and the values are Boolean (true for complete and false for not complete)
+
 ### Advanced Usage
 
 Basic usage is fine for most situations, but sometimes you need a little something extra.

@@ -59,6 +59,8 @@ describe "Evaluations" do
         include Zitdunyet::Completeness
         checkoff "Bar", 1.units do |s| s.bar >= 5 end
         checkoff "Baz", 1.units do |s| s.baz >= 5 end
+        checkoff "Biz", 1.units do |s| s.biz >= 5 end
+        checkoff "Buz", 1.units do |s| s.buz >= 5 end
 
         def bar
           9
@@ -67,12 +69,22 @@ describe "Evaluations" do
         def baz
           3
         end
+
+        def biz
+          7
+        end
+
+        def buz
+          1
+        end
       end
 
       foo = Foo.new
       hash = foo.checklist
       hash['Bar'].should be(true)
       hash['Baz'].should be(false)
+      hash['Biz'].should be(true)
+      hash['Buz'].should be(false)
 
     end
 
